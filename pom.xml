@@ -1,0 +1,110 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.cxy.by</groupId>
+	<artifactId>MyDemo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>MyDemo</name>
+	<url>http://maven.apache.org</url>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- Import dependency management from Spring Boot -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>2.1.5.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<!-- 私服仓库部分配置开始 -->
+	<!-- 配置相关私服信息指定仓库 -->
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<name>nexus</name>
+			<!-- <url>http://22.34.159.198:8081/nexus/content/groups/public/</url> -->
+			<url>http://localhost:8081/nexus/content/groups/public/</url>
+			<!-- Release版本则代表稳定的版本 -->
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<!-- Snapshot版本代表不稳定、尚处于开发中的版本，默认关闭，需要手动启动 -->
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<!-- 指定仓库插件 -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nexus</id>
+			<name>nexus</name>
+			<!-- <url>http://22.34.159.198:8081/nexus/content/groups/public/</url> -->
+			<url>http://localhost:8081/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	<!-- 配置nexus服务器私服仓库项目发布配置 -->
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>发布版库</name>
+			<!-- <url>http://22.34.159.198:8081/nexus/content/repositories/releases/</url> -->
+			<url>http://localhost:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>快照版库</name>
+			<!-- <url>http://22.34.159.198:8081/nexus/content/repositories/snapshots/</url> -->
+			<url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<!-- 私服仓库部分配置结束 -->
+
+	<properties>
+		<java.version>1.8</java.version>
+		<java.source.version>1.8</java.source.version>
+		<java.target.version>1.8</java.target.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		<!-- compile设置编译范围内有效，在编译和打包时都会将依赖项加载进去。 -->
+		<scope.selected>compile</scope.selected>
+	</properties>
+
+	<dependencies>
+		<!-- 一个减少冗余代码的插件 -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+	<modules>
+		<module>MyDemo-rpc</module>
+		<module>MyDemo-app</module>
+		<module>MyDemo-web</module>
+	</modules>
+</project>

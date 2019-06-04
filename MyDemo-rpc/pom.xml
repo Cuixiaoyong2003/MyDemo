@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.cxy.by</groupId>
+		<artifactId>MyDemo</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>com.cxy.by</groupId>
+	<artifactId>MyDemo-rpc</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>MyDemo-rpc</name>
+	<url>http://maven.apache.org</url>
+
+	<!-- 私服仓库部分配置开始 -->
+	<!-- 配置相关私服信息指定仓库 -->
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<name>nexus</name>
+			<!-- <url>http://22.34.159.198:8081/nexus/content/groups/public/</url> -->
+			<url>http://localhost:8081/nexus/content/groups/public/</url>
+			<!-- Release版本则代表稳定的版本 -->
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<!-- Snapshot版本代表不稳定、尚处于开发中的版本，默认关闭，需要手动启动 -->
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<!-- 指定仓库插件 -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nexus</id>
+			<name>nexus</name>
+			<!-- <url>http://22.34.159.198:8081/nexus/content/groups/public/</url> -->
+			<url>http://localhost:8081/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	<!-- 配置nexus服务器私服仓库项目发布配置 -->
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>发布版库</name>
+			<!-- <url>http://22.34.159.198:8081/nexus/content/repositories/releases/</url> -->
+			<url>http://localhost:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>快照版库</name>
+			<!-- <url>http://22.34.159.198:8081/nexus/content/repositories/snapshots/</url> -->
+			<url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<!-- 私服仓库部分配置结束 -->
+
+	<properties>
+		<java.version>1.8</java.version>
+		<java.source.version>1.8</java.source.version>
+		<java.target.version>1.8</java.target.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		<!-- compile设置编译范围内有效，在编译和打包时都会将依赖项加载进去。 -->
+		<scope.selected>compile</scope.selected>
+	</properties>
+
+	<dependencies>
+		<!-- <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> 
+			<version>3.8.1</version> <scope>test</scope> </dependency> -->
+
+		<!--添加热部署依赖 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<!-- optional=true,依赖不会传递，该项目依赖devtools；之后依赖myboot项目的项目如果想要使用devtools，需要重新引入 -->
+			<optional>true</optional>
+		</dependency>
+		
+		<!-- 解析spring-boot配置文件[很关键，必须引入] -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- 以下添加解决Maven多模块项目编译失败之程序包不存在的问题 -->
+					<classifier>exec</classifier>
+					<!-- 添加热部署支持，Project中添加于spring-boot-maven-plugin之下,主要在eclipse中使用，idea中不需要添加此配置 -->
+					<fork>true</fork>
+				</configuration>
+
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
